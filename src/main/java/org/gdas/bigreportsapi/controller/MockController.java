@@ -11,17 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/mock")
 public class MockController {
 
-    private final MockGenerator<Mock> mockMockGenerator;
+    private final MockGenerator mockMockGenerator;
 
-    public MockController() {
-        this.mockMockGenerator = new MockGenerator<>();
+    public MockController(MockGenerator mockMockGenerator) {
+        this.mockMockGenerator = mockMockGenerator;
     }
 
     @GetMapping
-    public ResponseEntity<?> get() {
-        Mock mock = new Mock();
-        mockMockGenerator.fill(mock);
-        return ResponseEntity.ok(mock);
+    public ResponseEntity<Mock> get() {
+        return ResponseEntity.ok(mockMockGenerator.create(Mock.class));
     }
 
 }

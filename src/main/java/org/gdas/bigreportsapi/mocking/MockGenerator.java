@@ -1,9 +1,10 @@
 package org.gdas.bigreportsapi.mocking;
 
-import org.gdas.bigreportsapi.model.annotation.Mocked;
 import org.gdas.bigreportsapi.model.annotation.MockedProperty;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Random;
@@ -12,15 +13,14 @@ import java.util.UUID;
 import static org.apache.commons.lang3.RandomStringUtils.random;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
-public class MockGenerator<T extends Mocked> {
+public class MockGenerator {
 
     private final Random random = new Random();
 
-    public MockGenerator() {
-    }
-
-    public void fill(T newInstance) {
+    public <T> T create(Class<T> clazz) {
         try {
+            Constructor<T> constructor = clazz.getConstructor();
+            T newInstance = constructor.newInstance();
             for (Field field : newInstance.getClass().getDeclaredFields()) {
                 if (field.isAnnotationPresent(MockedProperty.class)) {
                     field.setAccessible(true);
@@ -30,9 +30,10 @@ public class MockGenerator<T extends Mocked> {
                     field.set(newInstance, generatedValue);
                 }
             }
-        } catch(IllegalAccessException iae) {
-            iae.printStackTrace();
-            throw new IllegalStateException(iae);
+            return newInstance;
+        } catch(IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e   ) {
+            e.printStackTrace();
+            throw new IllegalStateException(e);
         }
     }
 
