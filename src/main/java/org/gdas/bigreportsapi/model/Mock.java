@@ -1,5 +1,6 @@
 package org.gdas.bigreportsapi.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gdas.bigreportsapi.model.annotation.Mocked;
 import org.gdas.bigreportsapi.model.annotation.MockedProperty;
@@ -27,6 +28,7 @@ public class Mock implements Mocked {
     private String lastName;
 
     @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @MockedProperty
     private LocalDate birthday;
 
@@ -59,6 +61,7 @@ public class Mock implements Mocked {
     private String country;
 
     @JsonProperty("hiring_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @MockedProperty
     private LocalDate hiring_date;
 

@@ -1,13 +1,15 @@
 package org.gdas.bigreportsapi;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.gdas.bigreportsapi.controller.MockController;
 
-@SpringBootApplication
+import static org.gdas.bigreportsapi.config.APIProperties.getProperty;
+import static spark.Spark.port;
+
 public class BigReportsDataMakerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BigReportsDataMakerApplication.class, args);
+		port(Integer.parseInt(getProperty("server.port")));
+		new MockController();
 	}
 
 }
