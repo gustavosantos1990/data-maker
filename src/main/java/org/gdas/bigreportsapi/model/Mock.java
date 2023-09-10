@@ -15,6 +15,11 @@ public class Mock implements Mocked {
     @MockedProperty
     private UUID id;
 
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @MockedProperty
+    private LocalDate createdAt;
+
     @JsonProperty("social_number")
     @MockedProperty(onlyDigits = true, size = 11)
     private String socialNumber;
